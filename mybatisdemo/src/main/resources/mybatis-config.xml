@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- 数据源 -->
+	<properties resource="datebases.properties"/>
+	<!-- 配置log4j -->
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	
+	<!-- 配置分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 配置数据库的方言 -->
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->        
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
+	
+	<!-- 配置一个开发环境，可以配置多个，在具体用时切换 -->
+	<environments default="testMysql">
+		<environment id="testMysql">
+		<!-- 测试环境 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 事务管理 JDBC/MANAGED -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${mysql.driver}" />
+				<property name="url" value="${mysql.url}" />
+				<property name="username" value="${mysql.username}" />
+				<property name="password" value="${mysql.password}" />
+			</dataSource>
+			<!-- 数据源 POOLED/UNPOOLED/JNDI -->
+		</environment>
+	</environments>
+	<!-- 声明mapper配置文件 -->
+	<mappers>
+		<mapper resource="com/tsunami/mybatisdemo/mapper/impl/StudentMapper.xml"/>
+	</mappers>
+</configuration>
