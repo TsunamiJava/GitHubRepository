@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
+        <!-- 扫描spring注解的包 -->
+        <context:component-scan base-package="com.tsunami.smm"/>
+		<!-- 读取数据库连接的配置文件 -->
+		<context:property-placeholder location="classpath:datebases.properties"/>
+		<!-- 必须要加上这一行代码，spring会把base-package包下面的类当成控制器来处理 -->
+        <context:component-scan base-package="com.tsunami.smm.controller"/>
+		
+		<!-- 声明一个数据源 -->
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${mysql.driver}" />
+		<property name="url" value="${mysql.url}" />
+		<property name="username" value="${mysql.username}" />
+		<property name="password" value="${mysql.password}" />
+		</bean>
+	
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="mapperLocations" value="classpath*:com/tsunami/smm/mapper/impl/*Mapper.xml"/>
+			<property name="plugins">
+            <array>
+                <!--分页插件-->
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                            reasonable=true
+                            supportMethodsArguments=true
+                            params=count=countSql
+                            autoRuntimeDialect=true
+                            pageSizeZero=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+		</bean>
+		
+		<!-- 自动扫描mybatis定义的dao(mapper)类 ，spring扫描到这些dao类之后，就会向spring容器注册这些dao类对象 -->
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<property name="basePackage" value="com.tsunami.smm.mapper"/>
+			<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+		</bean>
+</beans>
