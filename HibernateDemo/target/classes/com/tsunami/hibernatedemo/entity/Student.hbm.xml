@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tsunami.hibernatedemo.entity.Student" table="student">
+		<id name="stuId" type="int">
+			<column name="stu_id"></column>
+			<!-- 主键生成方式 -->
+			<generator class="increment" />
+		</id>
+		<property name="stuName" type="string">
+			<column name="stu_name"></column>
+		</property>
+		<property name="stuAge" type="int">
+			<column name="stu_age"></column>
+		</property>
+		<property name="stuSex" type="int">
+			<column name="stu_sex"></column>
+		</property>
+		<property name="stuNum" type="string">
+			<column name="stu_num"></column>
+		</property>
+		<property name="stuClass" type="string">
+			<column name="stu_class"></column>
+		</property>
+		<property name="stuCreatetime" type="date">
+			<column name="stu_createtime"></column>
+		</property>
+		<property name="stuUpdatetime" type="date">
+			<column name="stu_updatetime"></column>
+		</property>
+	</class>
+	<query name="findUsers">
+     <![CDATA[from Student where stuId >= 20 ]]>
+	</query>
+</hibernate-mapping>

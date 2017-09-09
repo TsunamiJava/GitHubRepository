@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 数据库方言 -->
+		<property name="dialect">
+			org.hibernate.dialect.MySQLDialect
+		</property>
+		<property name="connection.url">
+			jdbc:mysql://localhost:3306/test_demo?characterEncoding=utf8
+		</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">mysql</property>
+		<property name="connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+		<!-- 显示底层的sql语句,开发阶段设为true,项目发布阶段设为false -->
+		<property name="hibernate.show_sql">true</property>
+		<!-- 格式化SQL -->
+		<property name="hibernate.format_sql">false</property>
+		
+		<property name="hibernate.hbm2ddl.auto">update</property> 
+
+		<!-- 连接池配置 -->
+		<property name="hibernate.connection.pool_size">30</property>
+		<property name="hibernate.jdbc.fetch_size">10</property>
+		
+		<!-- 声明映射的文件 -->
+		<mapping resource="com/tsunami/hibernatedemo/entity/Student.hbm.xml" />
+		
+	</session-factory>
+</hibernate-configuration>
